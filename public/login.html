@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Connect</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" style="margin-right: 0.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818cf8"/>
+                            <stop offset="100%" stop-color="#c084fc"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Connect
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="auth-container" id="login-container">
+            <h2>Welcome Back</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-handle">Handle (e.g. @john)</label>
+                    <input type="text" id="login-handle" class="form-control" placeholder="@username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn">Log In</button>
+                <div class="auth-switch">
+                    Don't have an account? <a href="#" id="show-register">Register</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="auth-container hidden" id="register-container">
+            <h2>Create Account</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="reg-username">Full Name</label>
+                    <input type="text" id="reg-username" class="form-control" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-handle">Handle (Unique)</label>
+                    <input type="text" id="reg-handle" class="form-control" placeholder="@johndoe" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <div class="auth-switch">
+                    Already have an account? <a href="#" id="show-login">Log In</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>

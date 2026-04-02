@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect - Feed</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" style="margin-right: 0.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818cf8"/>
+                            <stop offset="100%" stop-color="#c084fc"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Connect
+            </a>
+            <div class="nav-links">
+                <a href="/">Feed</a>
+                <a href="#" id="my-profile-link">Profile</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Create Post -->
+        <div class="create-post">
+            <form id="create-post-form">
+                <textarea id="post-content" rows="3" placeholder="What's on your mind?..." required></textarea>
+                <div class="create-post-actions">
+                    <label class="custom-file-upload">
+                        <input type="file" id="post-image" accept="image/*">
+                        <svg width="20" height="20" viewBox="0 0 24 24"><use href="#icon-image"></use></svg>
+                        <span id="file-name">Attach Photo</span>
+                    </label>
+                    <button type="submit" class="btn" style="width: auto; padding: 0.6rem 2rem;">Post</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Feed List -->
+        <div id="posts-container">
+            <!-- Posts will be loaded here -->
+            <div style="text-align: center; color: var(--text-muted);">Loading posts...</div>
+        </div>
+    </div>
+
+    <!-- Icons Setup -->
+    <svg style="display:none">
+        <symbol id="icon-heart" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-comment" viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-image" viewBox="0 0 24 24">
+            <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/>
+        </symbol>
+    </svg>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/feed.js"></script>
+</body>
+</html>
