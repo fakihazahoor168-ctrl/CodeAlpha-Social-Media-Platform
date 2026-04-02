@@ -10,6 +10,18 @@ A fully functional, responsive social media web application built as part of the
 - **User Profiles**: Dedicated profile pages displaying user details and their published posts.
 - **Follow System**: Users can follow and unfollow other profiles.
 - **Media Uploads**: Seamless handling of image uploads (for posts and profile pictures) using `multer`.
+## Screenshots
+
+*(Add your awesome screenshots here! Save your images to a `screenshots` folder in your repository and link them below).*
+
+<div align="center">
+  <img src="screenshots/login.png" alt="Login & Registration Page" width="400"/>
+  <img src="screenshots/feed.png" alt="Main Feed Page" width="400"/>
+</div>
+
+<div align="center">
+  <img src="screenshots/profile.png" alt="User Profile Page" width="400"/>
+</div>
 
 ## Tech Stack
 
