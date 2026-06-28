@@ -8,6 +8,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
 
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
     if (showRegister) {
         showRegister.addEventListener('click', (e) => {
             e.preventDefault();
@@ -27,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const handle = document.getElementById('login-handle').value;
+            const handle = document.getElementById('login-handle').value.trim();
             const password = document.getElementById('login-password').value;
 
             try {
@@ -39,11 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error);
                 
-                // Save user info locally for quick access
+                showToast('Login successful! Redirecting...', 'success');
                 localStorage.setItem('user', JSON.stringify(data.user));
-                window.location.href = '/';
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
             } catch (err) {
-                alert(err.message);
+                showToast(err.message || 'Login failed', 'error');
             }
         });
     }
@@ -51,8 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (registerForm) {
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const username = document.getElementById('reg-username').value;
-            let handle = document.getElementById('reg-handle').value;
+            const username = document.getElementById('reg-username').value.trim();
+            let handle = document.getElementById('reg-handle').value.trim();
             const password = document.getElementById('reg-password').value;
 
             if (!handle.startsWith('@')) {
@@ -68,11 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error);
                 
-                alert('Registered successfully! Please log in.');
-                registerContainer.classList.add('hidden');
-                loginContainer.classList.remove('hidden');
+                showToast('Registered successfully! Please log in.', 'success');
+                setTimeout(() => {
+                    registerContainer.classList.add('hidden');
+                    loginContainer.classList.remove('hidden');
+                }, 1500);
             } catch (err) {
-                alert(err.message);
+                showToast(err.message || 'Registration failed', 'error');
             }
         });
     }

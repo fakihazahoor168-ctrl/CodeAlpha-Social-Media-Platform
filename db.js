@@ -6,6 +6,9 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
         console.error('Error opening database', err);
     } else {
         console.log('Database connected');
+
+        db.run(`PRAGMA foreign_keys = ON`);
+
         db.run(`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE,
@@ -13,6 +16,7 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
             handle TEXT UNIQUE,
             avatar TEXT,
             bio TEXT,
+            cover_color TEXT DEFAULT '#4f46e5',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )`);
 
@@ -52,6 +56,30 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
             FOREIGN KEY(follower_id) REFERENCES users(id),
             FOREIGN KEY(following_id) REFERENCES users(id)
         )`);
+
+        db.run(`CREATE TABLE IF NOT EXISTS bookmarks (
+            user_id INTEGER,
+            post_id INTEGER,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY(user_id, post_id),
+            FOREIGN KEY(user_id) REFERENCES users(id),
+            FOREIGN KEY(post_id) REFERENCES posts(id)
+        )`);
+
+        db.run(`CREATE TABLE IF NOT EXISTS notifications (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            from_user_id INTEGER,
+            type TEXT,
+            post_id INTEGER,
+            is_read INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(user_id) REFERENCES users(id),
+            FOREIGN KEY(from_user_id) REFERENCES users(id)
+        )`);
+
+        // Migrate existing users: add cover_color column if missing
+        db.run(`ALTER TABLE users ADD COLUMN cover_color TEXT DEFAULT '#4f46e5'`, () => {});
     }
 });
 
