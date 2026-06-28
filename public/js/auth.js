@@ -50,8 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ handle, password })
                 });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error);
+                
+                let data = {};
+                const contentType = res.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    data = await res.json();
+                } else {
+                    const text = await res.text();
+                    throw new Error(text || 'A server error occurred (Non-JSON response).');
+                }
+                
+                if (!res.ok) throw new Error(data.error || 'Server error occurred during login');
                 
                 showToast('Login successful! Redirecting...', 'success');
                 localStorage.setItem('user', JSON.stringify(data.user));
@@ -81,8 +90,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, handle, password })
                 });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.error);
+                
+                let data = {};
+                const contentType = res.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    data = await res.json();
+                } else {
+                    const text = await res.text();
+                    throw new Error(text || 'A server error occurred (Non-JSON response).');
+                }
+                
+                if (!res.ok) throw new Error(data.error || 'Server error occurred during registration');
                 
                 showToast('Registered successfully! Please log in.', 'success');
                 setTimeout(() => {
