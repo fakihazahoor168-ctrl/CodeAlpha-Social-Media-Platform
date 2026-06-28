@@ -1,7 +1,28 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const fs = require('fs');
 
-const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) => {
+let dbPath = path.join(__dirname, 'database.sqlite');
+
+// Check if running on Vercel serverless environment (requires /tmp for write access)
+if (process.env.VERCEL || process.env.NOW_REGION) {
+    dbPath = '/tmp/database.sqlite';
+    const sourcePath = path.join(__dirname, 'database.sqlite');
+    if (!fs.existsSync(dbPath)) {
+        try {
+            if (fs.existsSync(sourcePath)) {
+                fs.copyFileSync(sourcePath, dbPath);
+                console.log('Database template copied to /tmp');
+            } else {
+                console.log('No database template found; creating fresh database in /tmp');
+            }
+        } catch (copyErr) {
+            console.error('Error copying database template to /tmp', copyErr);
+        }
+    }
+}
+
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error opening database', err);
     } else {

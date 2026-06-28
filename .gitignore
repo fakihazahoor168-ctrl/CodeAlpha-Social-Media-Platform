@@ -1,0 +1,18 @@
+# Node modules
+node_modules/
+
+# Local databases
+database.sqlite
+database.sqlite-journal
+
+# Logs
+logs/
+*.log
+
+# OS temporary files
+.DS_Store
+Thumbs.db
+
+# Exclude uploads content but keep the folder
+public/uploads/*
+!public/uploads/.gitkeep

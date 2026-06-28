@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const db = require('./db');
 
 const app = express();
@@ -17,10 +18,24 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
+app.get('/uploads/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const tmpFile = path.join('/tmp', filename);
+    if (fs.existsSync(tmpFile)) {
+        return res.sendFile(tmpFile);
+    }
+    const publicFile = path.join(__dirname, 'public', 'uploads', filename);
+    if (fs.existsSync(publicFile)) {
+        return res.sendFile(publicFile);
+    }
+    res.status(404).send('File not found');
+});
+
 // Setup multer for uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './public/uploads/');
+        const dest = (process.env.VERCEL || process.env.NOW_REGION) ? '/tmp/' : './public/uploads/';
+        cb(null, dest);
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -370,6 +385,10 @@ app.get('/api/users/suggested', authenticate, (req, res) => {
 
 // ─── START SERVER ─────────────────────────────────────────────────────────────
 
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL && !process.env.NOW_REGION) {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
